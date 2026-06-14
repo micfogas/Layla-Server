@@ -547,7 +547,7 @@ const LlmServerPanel: React.FC<{
                 if (currentBuffer.length > MAX_BUFFER_SIZE) {
                   addLog("ERROR", `Buffer overflow for session ${chunk.sessionId}`);
                   requestBuffersRef.current.delete(chunk.sessionId);
-                  dc.close();
+                  dc?.close();
                   return;
                 }
                 
@@ -563,7 +563,7 @@ const LlmServerPanel: React.FC<{
                   streamToLocalServer(finalPayload, chunk.sessionId);
                 } catch (e) {
                   addLog("ERROR", "Invalid JSON payload received");
-                  dc.send(JSON.stringify({ sessionId: chunk.sessionId, type: "error", payload: "Invalid JSON" }));
+                  dc?.send(JSON.stringify({ sessionId: chunk.sessionId, type: "error", payload: "Invalid JSON" }));
                 }
                 // end - micfogas: patch for issue 2 & 4
               } else if (chunk.type === "cmd") {
